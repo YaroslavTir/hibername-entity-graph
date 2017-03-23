@@ -3,15 +3,15 @@ package com.yaroslavtir.sample;
 import com.yaroslavtir.sample.domain.OrderItem;
 import com.yaroslavtir.sample.domain.Orderdata;
 import com.yaroslavtir.sample.domain.Product;
-import com.yaroslavtir.sample.repositories.OrderRepository;
 import com.yaroslavtir.sample.repositories.OrderItemRepository;
+import com.yaroslavtir.sample.repositories.OrderRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -46,8 +46,7 @@ public class EntityGraphTests {
 		orderdata.setOrderNumber("test number");
 		orderdata.getItems().add(orderItem);
 
-		Orderdata save = orderRepository.save(orderdata);
-		orderItemRepository.save(orderItem);
+		orderRepository.save(orderdata);
 
 		entityManager.flush();
 		entityManager.clear();
@@ -57,7 +56,7 @@ public class EntityGraphTests {
 	public void contextLoads() {
 
 		List<Orderdata> orders = orderRepository.findAll();
-		orders.stream()
+        orders.stream()
 				.forEach(orderData -> orderData.getItems().stream()
 				.forEach(item ->
 						System.out.println(item.getProduct().getName())));

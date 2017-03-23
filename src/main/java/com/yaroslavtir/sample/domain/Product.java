@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 @Table
 @Entity
-@Data
+//@Data
 public class Product implements Serializable {
     @Id
     private Long id = 0L;
@@ -19,4 +19,19 @@ public class Product implements Serializable {
     @Column
     private String name;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
