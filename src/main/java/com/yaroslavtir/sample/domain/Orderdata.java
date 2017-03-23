@@ -12,10 +12,13 @@ import java.util.Set;
 @Entity
 @Table
 
-@NamedEntityGraph(name = "graph.Order.items",
+@NamedEntityGraph(
+        name = "graph.Order.items",
         attributeNodes = @NamedAttributeNode(value = "items", subgraph = "items"),
-        subgraphs = @NamedSubgraph(name = "items", attributeNodes = @NamedAttributeNode("product")))
-//@Data
+        subgraphs = @NamedSubgraph(
+                name = "items",
+                attributeNodes = @NamedAttributeNode("product")))
+@Data
 public class Orderdata implements Serializable {
 
     @Id
@@ -27,27 +30,4 @@ public class Orderdata implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<OrderItem> items = new HashSet<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
-    }
-
-    public Set<OrderItem> getItems() {
-        return items;
-    }
-
-    public void setItems(Set<OrderItem> items) {
-        this.items = items;
-    }
 }

@@ -4,7 +4,6 @@ import com.yaroslavtir.sample.domain.Orderdata;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
