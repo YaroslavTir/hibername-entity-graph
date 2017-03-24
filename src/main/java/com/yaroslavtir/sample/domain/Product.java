@@ -9,13 +9,18 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Table
+@Table(name = "product")
 @Entity
 @Data
 public class Product implements Serializable {
+
     @Id
     private Long id = 0L;
 
     @Column
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private ProductLine line;
+
 }

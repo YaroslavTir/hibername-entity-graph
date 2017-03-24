@@ -1,8 +1,9 @@
 package com.yaroslavtir.sample;
 
 import com.yaroslavtir.sample.domain.OrderItem;
-import com.yaroslavtir.sample.domain.Orderdata;
+import com.yaroslavtir.sample.domain.OrderData;
 import com.yaroslavtir.sample.domain.Product;
+import com.yaroslavtir.sample.domain.ProductLine;
 import com.yaroslavtir.sample.repositories.OrderItemRepository;
 import com.yaroslavtir.sample.repositories.OrderRepository;
 import org.junit.Before;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = SampleApplication.class)
@@ -35,18 +38,23 @@ public class EntityGraphTests {
 
 	@Before
 	public void setUp() throws Exception {
-		Product product = new Product();
+        ProductLine productLine = new ProductLine();
+        productLine.setLine("testLine");
+        productLine.setTextDescription("description test");
+
+        Product product = new Product();
 		product.setName("test");
+        product.setLine(productLine);
 
 		OrderItem orderItem = new OrderItem();
 		orderItem.setProduct(product);
 
 
-		Orderdata orderdata = new Orderdata();
-		orderdata.setOrderNumber("test number");
-		orderdata.getItems().add(orderItem);
+		OrderData orderData = new OrderData();
+		orderData.setOrderNumber("test number");
+		orderData.getItems().add(orderItem);
 
-		orderRepository.save(orderdata);
+		orderRepository.save(orderData);
 
 		entityManager.flush();
 		entityManager.clear();
@@ -55,12 +63,14 @@ public class EntityGraphTests {
 	@Test
 	public void contextLoads() {
 
-		List<Orderdata> orders = orderRepository.findAll();
-        orders.stream()
-				.forEach(orderData -> orderData.getItems().stream()
-				.forEach(item ->
-						System.out.println(item.getProduct().getName())));
-		org.junit.Assert.assertEquals(1, orders.size());
+		List<OrderData> orders = orderRepository.findAll();
+        orders.stream().flatMap(o -> o.getItems().stream())
+                .map(OrderItem::getProduct)
+                .map(Product::getLine)
+                .map(ProductLine::getTextDescription)
+                .forEach(System.out::println);
+
+		assertEquals(1, orders.size());
 	}
 
 }
