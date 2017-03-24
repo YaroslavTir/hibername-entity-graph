@@ -1,9 +1,6 @@
 package com.yaroslavtir.sample;
 
-import com.yaroslavtir.sample.domain.OrderItem;
-import com.yaroslavtir.sample.domain.OrderData;
-import com.yaroslavtir.sample.domain.Product;
-import com.yaroslavtir.sample.domain.ProductLine;
+import com.yaroslavtir.sample.domain.*;
 import com.yaroslavtir.sample.repositories.OrderItemRepository;
 import com.yaroslavtir.sample.repositories.OrderRepository;
 import org.junit.Before;
@@ -38,6 +35,10 @@ public class EntityGraphTests {
 
 	@Before
 	public void setUp() throws Exception {
+
+        ProductDetail productDetail = new ProductDetail();
+        productDetail.setDetail("test detail");
+
         ProductLine productLine = new ProductLine();
         productLine.setLine("testLine");
         productLine.setTextDescription("description test");
@@ -45,6 +46,7 @@ public class EntityGraphTests {
         Product product = new Product();
 		product.setName("test");
         product.setLine(productLine);
+        product.getDetail().add(productDetail);
 
 		OrderItem orderItem = new OrderItem();
 		orderItem.setProduct(product);

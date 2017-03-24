@@ -11,8 +11,31 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "order_data")
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = "graph.OrderData.items",
+                includeAllAttributes = true,
+                attributeNodes = {
+                        @NamedAttributeNode(value = "items", subgraph = "items")
+                },
+                subgraphs = {
+                        @NamedSubgraph(
+                                name = "items",
+                                attributeNodes = {
+                                        @NamedAttributeNode(value = "product", subgraph = "product")
+                                }),
+                        @NamedSubgraph(
+                                name = "product",
+                                attributeNodes = {
+                                        @NamedAttributeNode("line"),
+                                        @NamedAttributeNode("detail")
+                                })
+                }
+        )
+})
+
 @Data
-public class OrderData implements OrderDataGraph, Serializable {
+public class OrderData implements Serializable {
 
     @Id
     private Long id = 0L;
