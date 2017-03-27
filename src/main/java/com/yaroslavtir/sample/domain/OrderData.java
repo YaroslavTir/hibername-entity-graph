@@ -17,34 +17,11 @@ import java.util.Set;
                 includeAllAttributes = true,
                 attributeNodes = {
                         @NamedAttributeNode(value = "items", subgraph = "items")
-                },
-                subgraphs = {
-                        @NamedSubgraph(
-                                name = "items",
-                                attributeNodes = {
-                                        @NamedAttributeNode(value = "product", subgraph = "product")
-                                }),
-                        @NamedSubgraph(
-                                name = "product",
-                                attributeNodes = {
-                                        @NamedAttributeNode("line"),
-                                        @NamedAttributeNode("detail")
-                                })
                 }
         )
 })
 
-@Data
-public class OrderData implements Serializable {
+public class OrderData extends BaseOrderData {
 
-    @Id
-    private Long id = 0L;
-
-    @Column
-    private String orderNumber;
-
-    @JoinColumn(name = "id")
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<OrderItem> items = new HashSet<>();
 
 }
