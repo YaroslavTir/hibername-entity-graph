@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface OrderRepository  extends JpaRepository<OrderData, Long> {
 
-    @EntityGraph(value = "graph.OrderData.items", type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(value = "graph.order-data.base.items", type = EntityGraph.EntityGraphType.LOAD)
     List<OrderData> findAll();
 
 }

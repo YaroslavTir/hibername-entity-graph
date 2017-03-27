@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * @author ymolodkov on 24.03.17.
@@ -13,7 +14,7 @@ import javax.persistence.Table;
 @Table
 @Entity
 @Data
-public class ProductLine {
+public class ProductLine implements Serializable{
 
     @Id
     private Long id = 0L;

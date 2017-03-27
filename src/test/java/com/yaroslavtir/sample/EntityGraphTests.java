@@ -36,6 +36,17 @@ public class EntityGraphTests {
 	@Before
 	public void setUp() throws Exception {
 
+     	OrderData orderData = new OrderData();
+		orderData.setOrderNumber("test number");
+		orderData.getItems().add(createOrderItem());
+
+		orderRepository.save(orderData);
+
+		entityManager.flush();
+		entityManager.clear();
+	}
+
+    private OrderItem createOrderItem(){
         ProductDetail productDetail = new ProductDetail();
         productDetail.setDetail("test detail");
 
@@ -44,23 +55,14 @@ public class EntityGraphTests {
         productLine.setTextDescription("description test");
 
         Product product = new Product();
-		product.setName("test");
+        product.setName("test");
         product.setLine(productLine);
         product.getDetail().add(productDetail);
 
-		OrderItem orderItem = new OrderItem();
-		orderItem.setProduct(product);
-
-
-		OrderData orderData = new OrderData();
-		orderData.setOrderNumber("test number");
-		orderData.getItems().add(orderItem);
-
-		orderRepository.save(orderData);
-
-		entityManager.flush();
-		entityManager.clear();
-	}
+        OrderItem orderItem = new OrderItem();
+        orderItem.setProduct(product);
+        return orderItem;
+    }
 
 	@Test
 	public void contextLoads() {
