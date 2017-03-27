@@ -1,23 +1,23 @@
 package com.yaroslavtir.sample.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
 
 /**
  * @author ymolodkov on 24.03.17.
  */
 @Table
 @Entity
-@Data
-public class ProductLine implements Serializable{
+@Setter
+@Getter
+public class ProductLine extends AbstractEntity{
 
-    @Id
-    private Long id = 0L;
 
     @Column
     private String line;

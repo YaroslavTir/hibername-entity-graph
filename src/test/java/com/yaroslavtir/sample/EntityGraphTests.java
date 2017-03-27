@@ -39,6 +39,7 @@ public class EntityGraphTests {
      	OrderData orderData = new OrderData();
 		orderData.setOrderNumber("test number");
 		orderData.getItems().add(createOrderItem());
+        orderData.setSuperItem(createOrderItem());
 
 		orderRepository.save(orderData);
 
@@ -65,7 +66,7 @@ public class EntityGraphTests {
     }
 
 	@Test
-	public void contextLoads() {
+	public void test() {
 
 		List<OrderData> orders = orderRepository.findAll();
         orders.stream().flatMap(o -> o.getItems().stream())
@@ -74,7 +75,12 @@ public class EntityGraphTests {
                 .map(ProductLine::getTextDescription)
                 .forEach(System.out::println);
 
-		assertEquals(1, orders.size());
+        orders.stream().map(OrderData::getSuperItem)
+                .map(OrderItem::getProduct)
+                .map(Product::getLine)
+                .map(ProductLine::getTextDescription)
+                .forEach(System.out::println);
+        assertEquals(1, orders.size());
 	}
 
 }

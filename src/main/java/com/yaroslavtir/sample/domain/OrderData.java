@@ -1,51 +1,26 @@
 package com.yaroslavtir.sample.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
 /**
  * @author ymolodkov on 23.03.17.
  */
+
+
 @Entity
+@DiscriminatorValue("ORDER_DATS")
 @Table(name = "order_data")
-@NamedEntityGraphs({
-        @NamedEntityGraph(
-                name = "graph.order-data.base.items",
-                includeAllAttributes = true,
-                attributeNodes = {
-                        @NamedAttributeNode(value = "items", subgraph = "items")
-                },
-                subgraphs = {
-                        @NamedSubgraph(
-                                name = "items",
-                                attributeNodes = {
-                                        @NamedAttributeNode(value = "product", subgraph = "product")
-                                }),
-                        @NamedSubgraph(
-                                name = "product",
-                                attributeNodes = {
-                                        @NamedAttributeNode("line"),
-                                        @NamedAttributeNode("detail")
-                                })
-                }
-        )
-})
-@Data
-public class OrderData implements Serializable{
+@Setter
+@Getter
+public class OrderData extends OrderDataBase {
 
-        @Id
-        private Long id = 0L;
-
-        @Column
-        private String orderNumber;
-
-        @JoinColumn(name = "id")
-        @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-        private Set<OrderItem> items = new HashSet<>();
-
-        @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-        private OrderItem superItem;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private OrderItem superItem;
 }
